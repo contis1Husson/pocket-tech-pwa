@@ -1,11 +1,13 @@
 const PREFIX = 'pocket-tech:' + self.location.pathname + ':';
 const CACHE = PREFIX + 'v1';
 const FILES = ['./', './index.html', './style.css', './register.js', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll(FILES))
   );
 });
+
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
@@ -16,6 +18,7 @@ self.addEventListener('activate', event => {
       .then(() => self.clients.claim())
   );
 });
+
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   const base = new URL('./', self.location.href);
